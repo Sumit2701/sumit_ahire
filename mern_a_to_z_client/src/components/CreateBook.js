@@ -7,32 +7,34 @@ import { useNavigate } from 'react-router-dom';
 const CreateBook = (props) => {
   // Define the state with useState hook
   const navigate = useNavigate();
-  const [book, setBook] = useState({
-    title: '',
-    isbn: '',
-    author: '',
-    description: '',
-    published_date: '',
-    publisher: '',
+  const [ad, setAd] = useState({
+    id: '',
+    companyId: '',
+    primaryText: '',
+    headline: '',
+    CTA: '',
+    imageUrl: '',
+    description:''
   });
 
   const onChange = (e) => {
-    setBook({ ...book, [e.target.name]: e.target.value });
+    setAd({ ...ad, [e.target.name]: e.target.value });
   };
 
   const onSubmit = (e) => {
     e.preventDefault();
 
     axios
-      .post('http://localhost:8082/api/books', book)
+      .post('http://localhost:8082/api/books', ad)
       .then((res) => {
-        setBook({
-          title: '',
-          isbn: '',
-          author: '',
-          description: '',
-          published_date: '',
-          publisher: '',
+        setAd({
+          id: '',
+          companyId: '',
+          primaryText: '',
+          headline: '',
+          CTA: '',
+          imageUrl: '',
+          description:''
         });
 
         // Push to /
@@ -50,21 +52,21 @@ const CreateBook = (props) => {
           <div className='col-md-8 m-auto'>
             <br />
             <Link to='/' className='btn btn-outline-warning float-left'>
-              Show BooK List
+              Show Ad List
             </Link>
           </div>
           <div className='col-md-8 m-auto'>
-            <h1 className='display-4 text-center'>Add Book</h1>
-            <p className='lead text-center'>Create new book</p>
+            <h1 className='display-4 text-center'>Add Advertisement</h1>
+            <p className='lead text-center'>Create new Advertisement</p>
 
             <form noValidate onSubmit={onSubmit}>
               <div className='form-group'>
                 <input
                   type='text'
-                  placeholder='Title of the Book'
-                  name='title'
+                  placeholder='id'
+                  name='id'
                   className='form-control'
-                  value={book.title}
+                  value={ad.id}
                   onChange={onChange}
                 />
               </div>
@@ -73,10 +75,10 @@ const CreateBook = (props) => {
               <div className='form-group'>
                 <input
                   type='text'
-                  placeholder='ISBN'
-                  name='isbn'
+                  placeholder='companyId'
+                  name='companyId'
                   className='form-control'
-                  value={book.isbn}
+                  value={ad.companyId}
                   onChange={onChange}
                 />
               </div>
@@ -84,10 +86,10 @@ const CreateBook = (props) => {
               <div className='form-group'>
                 <input
                   type='text'
-                  placeholder='Author'
-                  name='author'
+                  placeholder='primaryText'
+                  name='primaryText'
                   className='form-control'
-                  value={book.author}
+                  value={ad.primaryText}
                   onChange={onChange}
                 />
               </div>
@@ -95,31 +97,41 @@ const CreateBook = (props) => {
               <div className='form-group'>
                 <input
                   type='text'
-                  placeholder='Describe this book'
+                  placeholder='headline'
+                  name='headline'
+                  className='form-control'
+                  value={ad.headline}
+                  onChange={onChange}
+                />
+              </div>
+              <div className='form-group'>
+                <input
+                  type='text'
+                  placeholder='description'
                   name='description'
                   className='form-control'
-                  value={book.description}
+                  value={ad.description}
                   onChange={onChange}
                 />
               </div>
 
               <div className='form-group'>
                 <input
-                  type='date'
-                  placeholder='published_date'
-                  name='published_date'
+                  type='text'
+                  placeholder='CTA'
+                  name='CTA'
                   className='form-control'
-                  value={book.published_date}
+                  value={ad.CTA}
                   onChange={onChange}
                 />
               </div>
               <div className='form-group'>
                 <input
                   type='text'
-                  placeholder='Publisher of this Book'
-                  name='publisher'
+                  placeholder='imageUrl'
+                  name='imageUrl'
                   className='form-control'
-                  value={book.publisher}
+                  value={ad.imageUrl}
                   onChange={onChange}
                 />
               </div>

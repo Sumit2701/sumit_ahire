@@ -2,58 +2,93 @@ const express = require('express');
 const router = express.Router();
 
 // Load Book model
-const Book = require('../../models/Book');
+const Ad = require('../../models/ad');
+const Company = require('../../models/company');
 
 // @route GET api/books/test
 // @description tests books route
 // @access Public
 router.get('/test', (req, res) => res.send('book route testing!'));
+var dbcourse = [];
 
-// @route GET api/books
-// @description Get all books
-// @access Public
-router.get('/', (req, res) => {
-  Book.find()
-    .then((books) => res.json(books))
-    .catch((err) => res.status(404).json({ nobooksfound: 'No Books found' }));
+router.get('/:search', (req, res) => {
+  const searchQuery=req.params.search
+
+  // Ad.find({
+    
+  //   $or: [
+  //       {
+  //         primaryText: {$regex: searchQuery, $options: 'i'},
+  //       },
+  //       {
+  //         headline: {$regex: searchQuery, $options: 'i'},
+  //       },
+  //       {
+  //         description: {$regex: searchQuery, $options: 'i'},
+  //       },
+  //   ]
+  
+  // })
+  //     .then(data => {
+  //         console.log("Database Courses:")
+  //         console.log(data);
+  //         data.map((d, k) => {
+  //             dbcourse.push(d.companyId);
+  //         })
+
+  //         // database course by filtering students
+  //         // whose courseId matches with any id in
+  //         // dbcourse array
+  //         Company.find({ id: { $in: dbcourse } })
+  //             .then(data2 => {
+  //                 console.log("Students in Database Courses:")
+  //                 console.log(data2);
+  //             }).then(
+                
+  //             )
+  //             .catch(error => {
+  //                 console.log(error);
+  //             })
+  //     })
+  //     .catch(error => {
+  //         console.log(error);
+  //     })
+  
+
+
+
+
+  Ad.find({
+    
+        $or: [
+            {
+              primaryText: {$regex: searchQuery, $options: 'i'},
+            },
+            {
+              headline: {$regex: searchQuery, $options: 'i'},
+            },
+            {
+              description: {$regex: searchQuery, $options: 'i'},
+            },
+        ]
+    
+     })
+    .then((ad) => res.json(ad))
+    .catch((err) => res.status(404).json({ no: req.params.search }));
 });
 
-// @route GET api/books/:id
-// @description Get single book by id
-// @access Public
-router.get('/:id', (req, res) => {
-  Book.findById(req.params.id)
-    .then((book) => res.json(book))
-    .catch((err) => res.status(404).json({ nobookfound: 'No Book found' }));
-});
 
-// @route GET api/books
-// @description add/save book
-// @access Public
 router.post('/', (req, res) => {
-  Book.create(req.body)
-    .then((book) => res.json({ msg: 'Book added successfully' }))
+  Ad.create(req.body)
+    .then((ad) => res.json({ msg: 'Book added successfully' }))
+    .catch((err) => res.status(400).json({ error: 'Unable to add this book' }));
+});
+router.post('/company', (req, res) => {
+  Company.create(req.body)
+    .then((company) => res.json({ msg: 'Book added successfully' }))
     .catch((err) => res.status(400).json({ error: 'Unable to add this book' }));
 });
 
-// @route GET api/books/:id
-// @description Update book
-// @access Public
-router.put('/:id', (req, res) => {
-  Book.findByIdAndUpdate(req.params.id, req.body)
-    .then((book) => res.json({ msg: 'Updated successfully' }))
-    .catch((err) =>
-      res.status(400).json({ error: 'Unable to update the Database' })
-    );
-});
 
-// @route GET api/books/:id
-// @description Delete book by id
-// @access Public
-router.delete('/:id', (req, res) => {
-  Book.findByIdAndRemove(req.params.id, req.body)
-    .then((book) => res.json({ mgs: 'Book entry deleted successfully' }))
-    .catch((err) => res.status(404).json({ error: 'No such a book' }));
-});
 
 module.exports = router;

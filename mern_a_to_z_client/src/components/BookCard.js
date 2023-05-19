@@ -3,21 +3,21 @@ import { Link } from 'react-router-dom';
 import '../App.css';
 
 const BookCard = (props) => {
-  const book = props.book;
+  const ad = props.ad;
 
   return (
     <div className='card-container'>
       <img
-        src='https://images.unsplash.com/photo-1495446815901-a7297e633e8d'
+        src={ad.url}
         alt='Books'
         height={200}
       />
       <div className='desc'>
         <h2>
-          <Link to={`/show-book/${book._id}`}>{book.title}</Link>
+         {ad.CTA}
         </h2>
-        <h3>{book.author}</h3>
-        <p>{book.description}</p>
+        <h3>{ad.primaryText}</h3>
+        <p>{ad.description}</p>
       </div>
     </div>
   );

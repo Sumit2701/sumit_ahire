@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState ,} from 'react';
 import '../App.css';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
@@ -6,18 +6,17 @@ import BookCard from './BookCard';
 
 function ShowBookList() {
   const [books, setBooks] = useState([]);
-
-  useEffect(() => {
+  const [search, setSearch] = useState();
+  const searchApi=()=>{
     axios
-      .get('http://localhost:8082/api/books')
-      .then((res) => {
-        setBooks(res.data);
-      })
-      .catch((err) => {
-        console.log('Error from ShowBookList');
-      });
-  }, []);
-
+    .get(`http://localhost:8082/api/books/${search}`)
+    .then((res) => {
+      setBooks(res.data);
+    })
+    .catch((err) => {
+      console.log('Error from ShowBookList');
+    });
+  }
   const bookList =
     books.length === 0
       ? 'there is no book record!'
@@ -28,16 +27,24 @@ function ShowBookList() {
       <div className='container'>
         <div className='row'>
           <div className='col-md-12'>
+   
             <br />
             <h2 className='display-4 text-center'>Books List</h2>
           </div>
-
+          <input type='text' onChange={(e)=>{setSearch(e.target.value)}}></input>
+            <button className='btn float-right ' onClick={()=>{searchApi()}}>Search</button>
           <div className='col-md-11'>
             <Link
-              to='/create-book'
+              to='/create-ad'
               className='btn btn-outline-warning float-right'
             >
-              + Add New Book
+              + Add New ad
+            </Link>
+            <Link
+              to='/create-company'
+              className='btn btn-outline-warning float-right'
+            >
+              + Add New Company
             </Link>
             <br />
             <br />
